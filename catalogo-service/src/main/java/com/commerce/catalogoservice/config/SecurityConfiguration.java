@@ -20,7 +20,6 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(csrf -> csrf.disable()) //Vulnerabilidad posible usando MVC
-                .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(http -> http.requestMatchers("/**").authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter())))
