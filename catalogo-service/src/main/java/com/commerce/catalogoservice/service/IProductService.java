@@ -10,5 +10,7 @@ public interface IProductService {
     public Product findProductById(Long id);
     public Product findProductByProductName(String name);
     public List<Product> findAll();
+    public List<Product> findByStringContains(String contains);
+    public List<Product> findByCategory(String category);
     public void modifyProduct(Long id, Product product);
 }

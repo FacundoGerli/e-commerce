@@ -1,0 +1,79 @@
+services:
+  api-gateway:
+    container_name: api-gateway
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - red1
+    depends_on:
+      config-server:
+        condition: service_started
+      keycloak:
+        condition: service_healthy
+
+  config-server:
+    container_name: config-server
+    build: ./config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - red1
+
+  eureka-server:
+    container_name: eureka-server
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - red1
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.1
+    container_name: keycloak
+    command: ["start-dev", "--import-realm"]
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL_HOST=db
+      - KC_DB_URL_DATABASE=keycloak
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=keycloak
+      - KC_HTTP_PORT=9090  # Asegura que Keycloak use el puerto 9090
+      - QUARKUS_SMALLRYE_HEALTH_ROOT_PATH=/health
+      - QUARKUS_SMALLRYE_HEALTH_CHECKS_ENABLED=true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/health"]
+      interval: 10s
+      retries: 8
+      start_period: 120s
+      timeout: 5s
+    volumes:
+      - ./realm-export.json:/opt/keycloak/data/import/realm-export.json  # Importa el backup
+    ports:
+      - "9090:9090"
+    networks:
+      - red1
+    depends_on:
+      db:
+        condition: service_started
+
+  db:
+    image: postgres:15
+    container_name: keycloak-db
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=keycloak
+    volumes:
+      - keycloak_data:/var/lib/postgresql/data
+    networks:
+      - red1
+
+volumes:
+  keycloak_data:
+
+networks:
+  red1:
+    driver: bridge

@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.commerce</groupId>
-    <artifactId>catalogo-service</artifactId>
+    <artifactId>product-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>catalogo-service</name>
     <description>catalogo-service</description>

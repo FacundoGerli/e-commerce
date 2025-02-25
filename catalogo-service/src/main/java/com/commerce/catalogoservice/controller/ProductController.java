@@ -6,6 +6,7 @@ import com.commerce.catalogoservice.service.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.List;
 
@@ -36,6 +37,16 @@ public class ProductController {
     public List<Product> findAll() {
         return productService.findAll();
     }
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/findByCategory")
+    public List<Product> findByCategory(String category){
+        return productService.findByCategory(category);
+    }
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/findContains")
+    public List<Product> findContains(@RequestBody String word){
+        return productService.findByStringContains(word);
+    }
 
     //-3 find by productname
     @ResponseStatus(HttpStatus.OK)
@@ -50,4 +61,5 @@ public class ProductController {
     public void modProduct(@PathVariable Long id, Product p) {
         productService.modifyProduct(id, p);
     }
+
 }

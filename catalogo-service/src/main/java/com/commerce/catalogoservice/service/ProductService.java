@@ -39,6 +39,16 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    public List<Product> findByStringContains(String contains) {
+        return productRepository.findByproductNameContaining(contains);
+    }
+
+    @Override
+    public List<Product> findByCategory(String category) {
+        return productRepository.findByCategory(category);
+    }
+
+    @Override
     public void modifyProduct(Long id, Product product) {
 
         var p = this.findProductById(id);
