@@ -70,6 +70,22 @@ services:
       - keycloak_data:/var/lib/postgresql/data
     networks:
       - red1
+  cart-service:
+    container_name: cart-service
+    build: ./cart-service
+    ports:
+      - "0:0"
+    networks:
+      - red1
+    depends_on:
+      redis_db:
+        condition: service_started
+        
+   redis_db: 
+     container_name: redis_db
+     image: redis:8.0-M03-alpine
+     ports:
+       - "6379:6379"
 
 volumes:
   keycloak_data:
