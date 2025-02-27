@@ -22,7 +22,6 @@ public class SecurityConfiguration {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
         httpSecurity
-                .authorizeExchange(exchanges -> exchanges.anyExchange().authenticated())
                 .oauth2Login(Customizer.withDefaults())
                 .addFilterAfter(jwtUserIdFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));

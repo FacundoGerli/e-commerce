@@ -18,7 +18,7 @@ public class CartController {
     public Cart getCart(@RequestHeader(value = "X-User-Id") String userId){
         return cartService.getCart(userId);
     }
-    @PostMapping("/add}")
+    @PostMapping("/add")
     public Cart addToCart(@RequestHeader(value = "X-User-Id") String userId, @RequestBody CartItemDTO item){
         return cartService.addToCart(userId, item);
     }

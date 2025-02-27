@@ -10,7 +10,7 @@ services:
       config-server:
         condition: service_started
       keycloak:
-        condition: service_healthy
+        condition: service_started
 
   config-server:
     container_name: config-server
@@ -74,18 +74,20 @@ services:
     container_name: cart-service
     build: ./cart-service
     ports:
-      - "0:0"
+      - "8081:8081"
     networks:
       - red1
     depends_on:
       redis_db:
         condition: service_started
+      config-server:
+        condition: service_started
         
-   redis_db: 
-     container_name: redis_db
-     image: redis:8.0-M03-alpine
-     ports:
-       - "6379:6379"
+  redis_db: 
+    container_name: redis_db
+    image: redis:8.0-M03-alpine
+    ports:
+      - "6379:6379"
 
 volumes:
   keycloak_data:
