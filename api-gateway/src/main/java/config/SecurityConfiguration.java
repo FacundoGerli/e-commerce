@@ -54,7 +54,7 @@ public class SecurityConfiguration {
     }
     @Bean
     public JwtDecoder jwtDecoder() {
-        String keycloakJwksUrl = "http://localhost:9090/realms/ecommerce-realm-dev/protocol/openid-connect/certs";
+        String keycloakJwksUrl = "http://keycloak:9090/realms/ecommerce-realm-dev/protocol/openid-connect/certs";
         return NimbusJwtDecoder.withJwkSetUri(keycloakJwksUrl).build();
     }
 }
