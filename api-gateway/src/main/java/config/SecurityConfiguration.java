@@ -1,6 +1,7 @@
 package config;
 
 import jakarta.ws.rs.core.HttpHeaders;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -52,9 +53,10 @@ public class SecurityConfiguration {
             return null;
         }
     }
+    @Value("${spring.security.keycloakJwksUrl}")
+    private String keycloakJwksUrl;
     @Bean
     public JwtDecoder jwtDecoder() {
-        String keycloakJwksUrl = "http://keycloak:9090/realms/ecommerce-realm-dev/protocol/openid-connect/certs";
         return NimbusJwtDecoder.withJwkSetUri(keycloakJwksUrl).build();
     }
 }
