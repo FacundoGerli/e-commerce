@@ -28,42 +28,12 @@ public class SecurityConfiguration {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
         httpSecurity
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .oauth2Login(Customizer.withDefaults())
                 .authorizeExchange(exchange -> exchange
-                    .pathMatchers("/public/**").permitAll()
+                        .pathMatchers("/public/**").permitAll()
                         .anyExchange().authenticated()
-                )
-                .addFilterAfter(jwtUserIdFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+                );
         return httpSecurity.build();
-    }
-    private WebFilter jwtUserIdFilter() {
-        return (ServerWebExchange exchange, WebFilterChain chain) -> {
-            String token = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-            
-            if (token == null || !token.startsWith("Bearer ")) return chain.filter(exchange);
-            
-            token = token.substring(7);
-            Jwt jwt = decodeJwt(token);
-            String userId = jwt != null ? jwt.getClaimAsString("sub") : null;
-            if (userId == null) return chain.filter(exchange);
-            exchange.getRequest().mutate()
-                    .header("X-User-Id", userId)
-                    .build();
-            return chain.filter(exchange);
-        };
-    }
-
-    private Jwt decodeJwt(String token) {
-        try {
-            JwtDecoder jwtDecoder = jwtDecoder();
-            return jwtDecoder.decode(token);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withJwkSetUri(keycloakJwksUrl).build();
     }
 }

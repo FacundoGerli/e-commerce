@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.commerce</groupId>
-    <artifactId>product-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>catalogo-service</artifactId>
+    <version>0.0.1</version>
     <name>catalogo-service</name>
     <description>catalogo-service</description>
     <url/>

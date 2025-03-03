@@ -17,7 +17,7 @@ public class CartService implements ICartService{
     public Cart getCart(String userId) {
         Cart cart = (Cart) redisTemplate.opsForValue().get("cart" + userId);
         if(cart == null) {
-            cart = new Cart();
+            cart = new Cart(userId);
             redisTemplate.opsForValue().set("cart" + userId, cart);
         }
         return cart;

@@ -6,8 +6,6 @@ import com.commerce.catalogoservice.service.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
-
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,7 +28,6 @@ public class ProductController {
     public Product findById(@PathVariable Long id) {
         return productService.findProductById(id);
     }
-
     //-3 find all
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/findAll")
