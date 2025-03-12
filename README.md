@@ -26,14 +26,19 @@ Este proyecto ha sido desarrollado utilizando las siguientes tecnologías:
 **Docker**: Contenedorización
 <br/>
 
-![Keycloak](https://img.icons8.com/color/48/000000/key.png)
 **Keycloak**: Como proveedor de autenticacion
 <br/>
 
-![PostgreSQL](https://img.icons8.com/color/48/000000/postgresql.png)
 **PostgreSQL**: Sistema de gestión de bases de datos relacional, robusto y confiable para el manejo de usuarios e items del catalogo
 <br/>
 
 ![Redis](https://img.icons8.com/color/48/000000/redis.png)
 **Redis**: Almacenamiento en memoria, de estilo no relacional. Utilizada para el almacenamiento volatil pero veloz en el servicio de carrito
 <br/>
+Microservicios implementados:
+- Eureka-server: Utilizado para la implementación del patron service discovery y registry.
+- Api gateway: Funcionando como unica puerta de acceso, permitiendo la implementación de seguridad, control de trafico y enrutamiento.
+- Config service: Microservicio para la centralización de configuracion.
+- Catalogo service
+- Cart-service
+- User service
